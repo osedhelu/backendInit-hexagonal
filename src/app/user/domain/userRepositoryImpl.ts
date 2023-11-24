@@ -1,4 +1,4 @@
-export default interface UsersRepositoryImpl {
+export default interface UserRepositoryImpl {
     test({ ok }: { ok: boolean }): any 
   }
   
