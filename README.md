@@ -6,11 +6,9 @@ Las dependencias son paquetes de código que proporcionan funcionalidades que no
 - elysia: Es un marco de trabajo para construir aplicaciones web en Node.js. Proporciona una estructura para organizar nuestro código y facilita la creación de rutas de API, controladores, servicios, etc.
 - node-dependency-injection: Es una biblioteca para implementar la inyección de dependencias en Node.js. Esto nos permite desacoplar nuestro código y hacerlo más modular y fácil de probar.
 - qrcode-terminal: Es una biblioteca para generar códigos QR en la terminal. Podemos usar esto para generar códigos QR a partir de texto en la terminal.
-- react y react-dom: Son las bibliotecas principales para construir interfaces de usuario en React. react es la biblioteca principal que nos permite crear componentes de React, mientras que react-dom nos permite renderizar estos componentes en el DOM.
 - uuid: Es una biblioteca para generar identificadores únicos. Esto es útil para generar identificadores únicos para nuestros objetos de datos.
-- whatsapp-web.js: Es una biblioteca para interactuar con WhatsApp Web. Nos permite enviar y recibir mensajes de WhatsApp desde nuestra aplicación.
 
-## Para crear un proyecto utilizando npx y bunx, puedes seguir los siguientes pasos:
+## Para crear un proyecto utilizando npx y bunx, puedes seguir los siguientes pasos
 
 Abre tu terminal y navega hasta el directorio donde deseas crear tu proyecto.
 Ejecuta el siguiente comando para crear un nuevo proyecto utilizando npx y bunx:
@@ -26,7 +24,18 @@ bunx osedhelu <nombre_del_directorio>
 ```
 
 Asegúrate de reemplazar <nombre_del_directorio> con el nombre que deseas darle a tu proyecto.
-Una vez que hayas ejecutado este comando, se creará un nuevo directorio con el nombre que especificaste y se generará la estructura de la arquitectura hexagonal en ese directorio. Esto incluirá los archivos y carpetas necesarios para comenzar a desarrollar tu aplicación.
+
+## To install dependencies
+
+```bash
+bun install
+```
+
+To run dev:
+
+```bash
+bun start:dev
+```
 
 ## Arquitectura Hexagonal
 
@@ -51,17 +60,3 @@ graph LR
 ```
 
 En este diagrama, las flechas representan las dependencias entre las diferentes capas de nuestra aplicación. Por ejemplo, la capa de aplicación depende de la capa de dominio (porque implementa las interfaces definidas en el dominio), y la capa de infraestructura depende de la capa de aplicación (porque utiliza los servicios de la capa de aplicación para interactuar con el mundo exterior).
-
-# bun_api_hexagonal
-
-To install dependencies:
-
-```bash
-bun install
-```
-
-To run dev:
-
-```bash
-bun start:dev
-```
