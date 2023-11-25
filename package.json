@@ -1,6 +1,6 @@
 {
   "name": "bun_api_hexagonal",
-  "version": "1.0.19",
+  "version": "1.0.24",
   "module": "./src/main.ts",
   "type": "module",
   "author": {
@@ -31,8 +31,12 @@
     "url": "git+https://github.com/osedhelu/backendInit-hexagonal.git"
   },
   "files": [
-    "index.mjs",
-    "create.mjs"
+    "./bin",
+    "./src",
+    "./env.d.ts",
+    "./.gitignore",
+    "./tsconfig.json",
+    ".env.example"
   ],
   "bin": {
     "bun_api_hexagonal": "bin/index.mjs"

@@ -1,65 +1,62 @@
 #!/usr/bin/env node
 
+
 'use strict'
 import fs from 'fs'
-import simpleGit from 'simple-git'
-import { execSync } from 'child_process'
-import ProgressBar from 'progress'
+import path from 'path'
+import { fileURLToPath } from 'url';
+import { packageTemplate } from './template/packageTemplate.mjs'
+const file = [
+  "./env.d.ts",
+  "./.gitignore",
+  "./tsconfig.json",
+  ".env.example"
+]
+let args = process.argv.splice(2)
+let projectName = args[0]
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const dirOrigin = path.resolve(__dirname, '../');
+const pathRoot = path.join(projectName, '.');
+const copyFile = (namefile) => {
+  const originPath = path.join(dirOrigin, namefile);
+  const destPath = path.join(pathRoot, namefile);
+  fs.copyFileSync(originPath, destPath);
 
-// Obtén el nombre del proyecto de los argumentos de la línea de comandos
-const projectName = process.argv[1]
-console.log('TCL: projectName', projectName)
+}
 
-// Verifica que el nombre del proyecto se ha proporcionado
+const createFileTemplate = (pathFile, template) => {
+  fs.writeFile(pathFile, template, (err) => {
+    if (err) {
+      console.error('Error al crear el archivo package.json:', err);
+      process.exit(1);
+    }
+
+    console.log(`¡Proyecto ${projectName} creado exitosamente!`);
+  });
+}
+
+
+
+
 if (!projectName) {
   console.error('Por favor proporciona un nombre para el proyecto')
   process.exit(1)
 }
 
-// Crea el directorio del proyecto
+
 fs.mkdirSync(projectName)
+const templatePackage = packageTemplate(projectName);
 
-// Clona el repositorio de la plantilla de proyecto en el directorio del proyecto
-const git = simpleGit()
-const clonePromise = git.clone(
-  'https://github.com/osedhelu/backendInit-hexagonal.git',
-  projectName
-)
+createFileTemplate(`${pathRoot}/package.json`, templatePackage)
 
-clonePromise.progress(progress => {
-  if (progress.total) {
-    const bar = new ProgressBar('Cloning [:bar] :percent :etas', {
-      complete: '=',
-      incomplete: ' ',
-      width: 20,
-      total: progress.total
-    })
 
-    bar.tick(progress.loaded)
-  }
-})
+// teniendo en cuenta 
+const items = fs.readdirSync(dirOrigin);
+console.log("TCL: items", items)
+copyFile('.env.example')
 
-await clonePromise
 
-// Cambia al directorio del proyecto
-process.chdir(projectName)
+// Obtiene los items del directorio original
 
-// Instala las dependencias del proyecto
-const bar = new ProgressBar('Installing [:bar] :percent :etas', {
-  complete: '=',
-  incomplete: ' ',
-  width: 20,
-  total: 100
-})
-
-const install = execSync('npm install')
-
-install.stdout.on('data', data => {
-  const match = data.toString().match(/(\d+)\%/)
-  if (match) {
-    const percent = parseInt(match[0], 10)
-    bar.tick(percent)
-  }
-})
-
-console.log(`¡Proyecto ${projectName} creado exitosamente!`)
+// Copia los archivos y directorios al directorio del proyecto
