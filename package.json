@@ -1,8 +1,13 @@
 {
   "name": "bun_api_hexagonal",
-  "version": "1.0.7",
-  "module": "index.ts",
+  "version": "1.0.17",
+  "module": "./src/main.ts",
   "type": "module",
+  "author": {
+    "name": "Oscar Herrera",
+    "url": "http://github.com/osedhelu",
+    "email": "osedhelu@gmail.com"
+  },
   "scripts": {
     "start:dev": "bun --watch run ./src/main.ts"
   },
@@ -26,10 +31,10 @@
     "url": "git+https://github.com/osedhelu/backendInit-hexagonal.git"
   },
   "files": [
-    "index.js",
-    "create.js"
+    "index.mjs",
+    "create.mjs"
   ],
   "bin": {
-    "create": "./bin/create.js"
+    "bun_api_hexagonal": "bin/index.mjs"
   }
 }
