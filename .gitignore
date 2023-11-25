@@ -178,3 +178,5 @@ dist
 tmp/*
 !tmp/.gitkeep
 .wwebjs_auth
+./src/app/*
+!./src/app/.gitkeep
