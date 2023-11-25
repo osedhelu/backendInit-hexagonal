@@ -1,6 +1,6 @@
 {
   "name": "osedhelu",
-  "version": "1.2.14",
+  "version": "1.2.16",
   "module": "./src/main.ts",
   "type": "module",
   "author": {
