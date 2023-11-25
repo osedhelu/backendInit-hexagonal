@@ -1,67 +1,68 @@
 #!/usr/bin/env node
-const fs = require('fs')
-const simpleGit = require('simple-git')
-const { execSync } = require('child_process')
-const ProgressBar = require('progress')
 
-const init = async () => {
-  // Obtén el nombre del proyecto de los argumentos de la línea de comandos
-  const projectName = process.argv[1]
-  console.log('TCL: projectName', projectName)
+'use strict'
 
-  // Verifica que el nombre del proyecto se ha proporcionado
-  if (!projectName) {
-    console.error('Por favor proporciona un nombre para el proyecto')
-    process.exit(1)
+process.title = 'mime'
+const pkg = await import('../package.json', {
+  assert: {
+    type: 'json'
   }
+})
 
-  // Crea el directorio del proyecto
-  fs.mkdirSync(projectName)
+console.log('TCL: pkg', pkg)
+let args = process.argv.splice(2)
 
-  // Clona el repositorio de la plantilla de proyecto en el directorio del proyecto
-  const git = simpleGit()
-  const clonePromise = git.clone(
-    'https://github.com/osedhelu/backendInit-hexagonal.git',
-    projectName
-  )
+if (args.includes('--version') || args.includes('-v') || args.includes('--v')) {
+  console.log(pkg.version)
+  process.exit(0)
+} else if (
+  args.includes('--name') ||
+  args.includes('-n') ||
+  args.includes('--n')
+) {
+  console.log(pkg.name)
+  process.exit(0)
+} else if (
+  args.includes('--help') ||
+  args.includes('-h') ||
+  args.includes('--h')
+) {
+  console.log(pkg.name + ' - ' + pkg.description + '\n')
+  console.log(`Usage:
 
-  clonePromise.progress(progress => {
-    if (progress.total) {
-      const bar = new ProgressBar('Cloning [:bar] :percent :etas', {
-        complete: '=',
-        incomplete: ' ',
-        width: 20,
-        total: progress.total
-      })
+ mime [flags] [path_or_extension]
 
-      bar.tick(progress.loaded)
-    }
-  })
+ Flags:
+   --help, -h                   Show this message
+   --version, -v                Display the version
+   --name, -n                   Print the name of the program
 
-  await clonePromise
+ Note: the command will exit after it executes if a command is specified
+ The path_or_extension is the path to the file or the extension of the file.
 
-  // Cambia al directorio del proyecto
-  process.chdir(projectName)
-
-  // Instala las dependencias del proyecto
-  const bar = new ProgressBar('Installing [:bar] :percent :etas', {
-    complete: '=',
-    incomplete: ' ',
-    width: 20,
-    total: 100
-  })
-
-  const install = execSync('npm install')
-
-  install.stdout.on('data', data => {
-    const match = data.toString().match(/(\d+)\%/)
-    if (match) {
-      const percent = parseInt(match[0], 10)
-      bar.tick(percent)
-    }
-  })
-
-  console.log(`¡Proyecto ${projectName} creado exitosamente!`)
+ Examples:
+   mime --help
+   mime --version
+   mime --name
+   mime -v
+   mime src/log.js
+   mime new.py
+   mime foo.sh
+ `)
+  process.exit(0)
 }
 
-module.exports = { init }
+let projectName = args[0]
+if (!projectName) {
+  console.error('Por favor proporciona un nombre para el proyecto')
+  process.exit(1)
+}
+
+// Crea el directorio del proyecto
+fs.mkdirSync(projectName)
+
+const git = simpleGit()
+const clonePromise = git.clone(
+  'https://github.com/osedhelu/backendInit-hexagonal.git',
+  projectName
+)

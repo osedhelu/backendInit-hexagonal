@@ -1,54 +1,65 @@
 #!/usr/bin/env node
 
 'use strict'
+import fs from 'fs'
+import simpleGit from 'simple-git'
+import { execSync } from 'child_process'
+import ProgressBar from 'progress'
 
-process.title = 'mime'
-// let mime = require('.')
-import pkg from './package.json'
-let args = process.argv.splice(2)
+// Obtén el nombre del proyecto de los argumentos de la línea de comandos
+const projectName = process.argv[1]
+console.log('TCL: projectName', projectName)
 
-if (args.includes('--version') || args.includes('-v') || args.includes('--v')) {
- console.log(pkg.version)
- process.exit(0)
-} else if (
- args.includes('--name') ||
- args.includes('-n') ||
- args.includes('--n')
-) {
- console.log(pkg.name)
- process.exit(0)
-} else if (
- args.includes('--help') ||
- args.includes('-h') ||
- args.includes('--h')
-) {
- console.log(pkg.name + ' - ' + pkg.description + '\n')
- console.log(`Usage:
-
- mime [flags] [path_or_extension]
-
- Flags:
-   --help, -h                   Show this message
-   --version, -v                Display the version
-   --name, -n                   Print the name of the program
-
- Note: the command will exit after it executes if a command is specified
- The path_or_extension is the path to the file or the extension of the file.
-
- Examples:
-   mime --help
-   mime --version
-   mime --name
-   mime -v
-   mime src/log.js
-   mime new.py
-   mime foo.sh
- `)
- process.exit(0)
+// Verifica que el nombre del proyecto se ha proporcionado
+if (!projectName) {
+  console.error('Por favor proporciona un nombre para el proyecto')
+  process.exit(1)
 }
 
-let file = args[0]
-console.log('TCL: file', file)
-// let type = mime.getType(file)
+// Crea el directorio del proyecto
+fs.mkdirSync(projectName)
 
-// process.stdout.write(type + '\n')
+// Clona el repositorio de la plantilla de proyecto en el directorio del proyecto
+const git = simpleGit()
+const clonePromise = git.clone(
+  'https://github.com/osedhelu/backendInit-hexagonal.git',
+  projectName
+)
+
+clonePromise.progress(progress => {
+  if (progress.total) {
+    const bar = new ProgressBar('Cloning [:bar] :percent :etas', {
+      complete: '=',
+      incomplete: ' ',
+      width: 20,
+      total: progress.total
+    })
+
+    bar.tick(progress.loaded)
+  }
+})
+
+await clonePromise
+
+// Cambia al directorio del proyecto
+process.chdir(projectName)
+
+// Instala las dependencias del proyecto
+const bar = new ProgressBar('Installing [:bar] :percent :etas', {
+  complete: '=',
+  incomplete: ' ',
+  width: 20,
+  total: 100
+})
+
+const install = execSync('npm install')
+
+install.stdout.on('data', data => {
+  const match = data.toString().match(/(\d+)\%/)
+  if (match) {
+    const percent = parseInt(match[0], 10)
+    bar.tick(percent)
+  }
+})
+
+console.log(`¡Proyecto ${projectName} creado exitosamente!`)
