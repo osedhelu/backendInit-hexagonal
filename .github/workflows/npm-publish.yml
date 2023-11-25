@@ -19,7 +19,7 @@ jobs:
         run: |
           git config user.name "osedhelu"
           git config user.email "osedhelu@gmail.com"
+          npm config set @osedhelu:registry https://registry.npmjs.org/
+          npm config set //registry.npmjs.org/:_authToken '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'
       - run: npm version patch
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: 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
