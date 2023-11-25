@@ -1,6 +1,6 @@
 {
-  "name": "bun_api_hexagonal",
-  "version": "1.0.31",
+  "name": "backend_osedhelu",
+  "version": "1.2.0",
   "module": "./src/main.ts",
   "type": "module",
   "author": {
@@ -23,6 +23,6 @@
     ".env.example"
   ],
   "bin": {
-    "bun_api_hexagonal": "bin/index.mjs"
+    "osedhelu": "bin/index.mjs"
   }
 }
