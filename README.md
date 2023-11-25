@@ -10,6 +10,24 @@ Las dependencias son paquetes de código que proporcionan funcionalidades que no
 - uuid: Es una biblioteca para generar identificadores únicos. Esto es útil para generar identificadores únicos para nuestros objetos de datos.
 - whatsapp-web.js: Es una biblioteca para interactuar con WhatsApp Web. Nos permite enviar y recibir mensajes de WhatsApp desde nuestra aplicación.
 
+## Para crear un proyecto utilizando npx y bunx, puedes seguir los siguientes pasos:
+
+Abre tu terminal y navega hasta el directorio donde deseas crear tu proyecto.
+Ejecuta el siguiente comando para crear un nuevo proyecto utilizando npx y bunx:
+
+```bash
+npx osedhelu <nombre_del_directorio>
+```
+
+o
+
+```bash
+bunx osedhelu <nombre_del_directorio>
+```
+
+Asegúrate de reemplazar <nombre_del_directorio> con el nombre que deseas darle a tu proyecto.
+Una vez que hayas ejecutado este comando, se creará un nuevo directorio con el nombre que especificaste y se generará la estructura de la arquitectura hexagonal en ese directorio. Esto incluirá los archivos y carpetas necesarios para comenzar a desarrollar tu aplicación.
+
 ## Arquitectura Hexagonal
 
 La arquitectura hexagonal, también conocida como arquitectura de puertos y adaptadores, es un patrón de diseño que nos permite separar la lógica de negocio de nuestra aplicación de su infraestructura. Esto nos permite cambiar la infraestructura (por ejemplo, cambiar de una base de datos a otra) sin afectar a la lógica de negocio.
