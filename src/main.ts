@@ -5,11 +5,11 @@ const PORT = Bun.env.PORT || 3000
 
 const app = new Elysia().use(swagger())
 const dirH = await watchDirecrory('app')
-console.log('TCL: dirH', dirH)
 app.group('/v1', xxRo => {
   dirH.forEach(rep => {
     const router = require(`./app/${rep.origin}/${rep.url[1]}/router.ts`)
     xxRo.group(rep.origin, ds => {
+      console.log(`${rep.origin}`)
       router.default(ds)
       return ds
     })

@@ -1,5 +1,6 @@
 {
   "name": "bun_api_hexagonal",
+  "version": "1.0.3",
   "module": "index.ts",
   "type": "module",
   "scripts": {
@@ -7,7 +8,7 @@
   },
   "devDependencies": {
     "@types/qrcode-terminal": "^0.12.2",
-    "bun-types": "latest"
+    "bun-types": "^1.0.14"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
@@ -17,6 +18,18 @@
     "elysia": "^0.7.29",
     "node-dependency-injection": "^3.1.0",
     "qrcode-terminal": "^0.12.0",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "whatsapp-web.js": "^1.23.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/osedhelu/backendInit-hexagonal.git"
+  },
+  "files": [
+    "index.js",
+    "create.js"
+  ],
+  "bin": {
+    "create": "./bin/create.js"
   }
 }
