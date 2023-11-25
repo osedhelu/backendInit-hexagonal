@@ -1,6 +1,6 @@
 {
   "name": "bun_api_hexagonal",
-  "version": "1.0.24",
+  "version": "1.0.31",
   "module": "./src/main.ts",
   "type": "module",
   "author": {
@@ -8,24 +8,8 @@
     "url": "http://github.com/osedhelu",
     "email": "osedhelu@gmail.com"
   },
-  "scripts": {
-    "start:dev": "bun --watch run ./src/main.ts"
-  },
-  "devDependencies": {
-    "@types/qrcode-terminal": "^0.12.2",
-    "bun-types": "^1.0.14"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@elysiajs/swagger": "^0.7.4",
-    "elysia": "^0.7.29",
-    "node-dependency-injection": "^3.1.0",
-    "qrcode-terminal": "^0.12.0",
-    "uuid": "^9.0.1",
-    "whatsapp-web.js": "^1.23.0"
-  },
+  "peerDependencies": {},
+  "dependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/osedhelu/backendInit-hexagonal.git"
@@ -33,9 +17,9 @@
   "files": [
     "./bin",
     "./src",
-    "./env.d.ts",
-    "./.gitignore",
-    "./tsconfig.json",
+    ".env.d.ts",
+    ".gitignore",
+    "tsconfig.json",
     ".env.example"
   ],
   "bin": {

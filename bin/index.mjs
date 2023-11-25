@@ -6,10 +6,10 @@ import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url';
 import { packageTemplate } from './template/packageTemplate.mjs'
+import { gitIgnoreTemplate } from './template/gitIgnore.mjs'
 const file = [
-  "./env.d.ts",
-  "./.gitignore",
-  "./tsconfig.json",
+  ".env.d.ts",
+  "tsconfig.json",
   ".env.example"
 ]
 let args = process.argv.splice(2)
@@ -32,8 +32,12 @@ const createFileTemplate = (pathFile, template) => {
       process.exit(1);
     }
 
-    console.log(`¡Proyecto ${projectName} creado exitosamente!`);
   });
+}
+const createDirectory = (dirname) => {
+  const originPath = path.join(dirOrigin, dirname);
+  const destPath = path.join(projectName, dirname);
+  fs.cpSync(originPath, destPath, { recursive: true });
 }
 
 
@@ -49,14 +53,10 @@ fs.mkdirSync(projectName)
 const templatePackage = packageTemplate(projectName);
 
 createFileTemplate(`${pathRoot}/package.json`, templatePackage)
+createFileTemplate(`${pathRoot}/.gitignore`, gitIgnoreTemplate())
 
 
-// teniendo en cuenta 
-const items = fs.readdirSync(dirOrigin);
-console.log("TCL: items", items)
-copyFile('.env.example')
+file.forEach((ir) => copyFile(ir))
+createDirectory('src')
 
-
-// Obtiene los items del directorio original
-
-// Copia los archivos y directorios al directorio del proyecto
+console.log(`¡Proyecto ${projectName} creado exitosamente!`);

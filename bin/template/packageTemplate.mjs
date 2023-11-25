@@ -18,8 +18,8 @@ export const packageTemplate = (name) => `
     "@elysiajs/swagger": "^0.7.4",
     "elysia": "^0.7.29",
     "node-dependency-injection": "^3.1.0",
-    "uuid": "^9.0.1",
-  },
+    "uuid": "^9.0.1"
+  }
 }
 
 `
