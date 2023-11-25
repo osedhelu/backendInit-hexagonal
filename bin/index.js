@@ -1,6 +1,9 @@
+const { init } = require('./create')
 const currentNodeVersion = process.versions.node
 const semver = currentNodeVersion.split('.')
+
 const major = semver[0]
+console.log('TCL: major', major)
 
 if (major < 14) {
   console.error(
@@ -12,7 +15,5 @@ if (major < 14) {
   )
   process.exit(1)
 }
-
-const { init } = require('./create')
 
 init()

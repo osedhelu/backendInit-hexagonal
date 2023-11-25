@@ -1,33 +1,66 @@
-const fs = require('fs')
-const { execSync } = require('child_process')
-const init = () => {
-  // Obtén el nombre del proyecto de los argumentos de la línea de comandos
-  const projectName = process.argv[0]
-  console.log('TCL: projectName', projectName)
+const fs = require('fs');
+const simpleGit = require('simple-git');
+const { execSync } = require('child_process');
+const ProgressBar = require('progress');
 
-  // Verifica que el nombre del proyecto se ha proporcionado
-  if (!projectName) {
-    console.error('Por favor proporciona un nombre para el proyecto')
-    process.exit(1)
-  }
+const init = async () => {
+ // Obtén el nombre del proyecto de los argumentos de la línea de comandos
+ const projectName = process.argv[1];
+ console.log('TCL: projectName', projectName);
 
-  // Crea el directorio del proyecto
-  fs.mkdirSync(projectName)
+ // Verifica que el nombre del proyecto se ha proporcionado
+ if (!projectName) {
+   console.error('Por favor proporciona un nombre para el proyecto');
+   process.exit(1);
+ }
 
-  // Clona el repositorio de la plantilla de proyecto en el directorio del proyecto
-  execSync(
-    `git clone https://github.com/osedhelu/backendInit-hexagonal.git ${projectName}`
-  )
+ // Crea el directorio del proyecto
+ fs.mkdirSync(projectName);
 
-  // Cambia al directorio del proyecto
-  process.chdir(projectName)
+ // Clona el repositorio de la plantilla de proyecto en el directorio del proyecto
+ const git = simpleGit();
+ const clonePromise = git.clone(
+   'https://github.com/osedhelu/backendInit-hexagonal.git',
+   projectName
+ );
 
-  // Instala las dependencias del proyecto
-  execSync('npm install')
+ clonePromise.progress(progress => {
+   if (progress.total) {
+     const bar = new ProgressBar('Cloning [:bar] :percent :etas', {
+       complete: '=',
+       incomplete: ' ',
+       width: 20,
+       total: progress.total
+     });
 
-  console.log(`¡Proyecto ${projectName} creado exitosamente!`)
-}
+     bar.tick(progress.loaded);
+   }
+ });
 
-module.exports = {
-  init
-}
+ await clonePromise;
+
+ // Cambia al directorio del proyecto
+ process.chdir(projectName);
+
+ // Instala las dependencias del proyecto
+ const bar = new ProgressBar('Installing [:bar] :percent :etas', {
+   complete: '=',
+   incomplete: ' ',
+   width: 20,
+   total: 100
+ });
+
+ const install = execSync('npm install');
+
+ install.stdout.on('data', data => {
+   const match = data.toString().match(/(\d+)\%/);
+   if (match) {
+     const percent = parseInt(match[0], 10);
+     bar.tick(percent);
+   }
+ });
+
+ console.log(`¡Proyecto ${projectName} creado exitosamente!`);
+};
+
+module.exports = { init };
